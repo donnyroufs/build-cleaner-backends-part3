@@ -1,0 +1,36 @@
+{
+  "name": "server",
+  "version": "1.0.0",
+  "main": "bootstrap.ts",
+  "author": "donnyroufs",
+  "scripts": {
+    "dev": "ts-node-dev --respawn --transpile-only --no-notify -r tsconfig-paths/register src/bootstrap.ts",
+    "test": "NODE_ENV=test jest --collect-coverage",
+    "test:watch": "NODE_ENV=test jest --watch",
+    "lint": "eslint . --ext .ts",
+    "prepare": "husky install"
+  },
+  "license": "MIT",
+  "devDependencies": {
+    "@types/jest": "^26.0.20",
+    "@typescript-eslint/eslint-plugin": "^4.22.0",
+    "@typescript-eslint/parser": "^4.22.0",
+    "dotenv": "^8.2.0",
+    "eslint": "^7.24.0",
+    "husky": "^6.0.0",
+    "jest": "^26.6.3",
+    "lint-staged": ">=10",
+    "prettier": "^2.2.1",
+    "ts-jest": "^26.5.3",
+    "ts-node-dev": "^1.1.6",
+    "tsconfig-paths": "^3.9.0",
+    "typescript": "^4.2.2"
+  },
+  "lint-staged": {
+    "**/*.{js,jsx,ts,tsx}": [
+      "yarn eslint",
+      "yarn prettier --write",
+      "yarn test --watchAll=false --findRelatedTests --bail"
+    ]
+  }
+}
