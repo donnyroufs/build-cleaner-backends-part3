@@ -1,10 +1,10 @@
 import { injectable } from 'inversify'
 import mongoose from 'mongoose'
 
-import { subscribersModel } from './subscribers.model'
+import { ISubscriber, subscribersModel } from '@data/subscribers.model'
 
 @injectable()
-export class DBService {
+export class DBContext {
   private _db: typeof mongoose
 
   async connect() {
@@ -17,6 +17,6 @@ export class DBService {
   }
 
   get subscriber() {
-    return this._db.model('Subscriber', subscribersModel)
+    return this._db.model<ISubscriber>('Subscriber', subscribersModel)
   }
 }

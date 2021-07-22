@@ -1,33 +1,41 @@
 import { injectable } from 'inversify'
-import { DBService } from './db.service'
+import { DBContext } from '@data/db.context'
+import { ISubscriber } from './subscribers.model'
 
 @injectable()
 export class SubscribersRepository {
-  constructor(private readonly _dbContext: DBService) {}
+  constructor(private readonly _dbContext: DBContext) {}
 
   async all() {
     return this._dbContext.subscriber.find({})
   }
 
-  async findOne(id: string) {
+  async findOne(id: ISubscriber['_id']) {
     return this._dbContext.subscriber.findById(id)
   }
 
-  async create({
-    name,
-    subscribedToChannel,
-  }: {
-    name: string
-    subscribedToChannel: string
-  }) {
-    return this._dbContext.subscriber.create({ name, subscribedToChannel })
+  async create(entity: Partial<ISubscriber>) {
+    return this._dbContext.subscriber.create(entity)
   }
 
-  async updateOne(subscriber: any, payload: any) {
-    subscriber.name = payload.name
-    subscriber.subcribedToChannel = payload.subscribedToChannel
+  async updateOne(payload: Partial<ISubscriber>) {
+    const foundSubscriber = await this._dbContext.subscriber.findById(
+      payload._id
+    )
 
-    return subscriber.save()
+    if (!foundSubscriber) {
+      throw new Error('subscriber does not exist')
+    }
+
+    if (payload.name) {
+      foundSubscriber.name = payload.name
+    }
+
+    if (payload.channel) {
+      foundSubscriber.channel = payload.channel
+    }
+
+    foundSubscriber.save()
   }
 
   async deleteOne(id: string) {

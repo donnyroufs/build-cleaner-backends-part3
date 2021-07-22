@@ -1,15 +1,22 @@
 import mongoose from 'mongoose'
 
+export interface ISubscriber {
+  _id: string
+  name: string
+  channel: string
+  createdAt: Date
+}
+
 export const subscribersModel = new mongoose.Schema({
   name: {
     type: String,
     required: true,
   },
-  subscribedToChannel: {
+  channel: {
     type: String,
     required: true,
   },
-  subscribeDate: {
+  createdAt: {
     type: Date,
     required: true,
     default: Date.now,
