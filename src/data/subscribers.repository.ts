@@ -11,7 +11,12 @@ export class SubscribersRepository {
   }
 
   async findOne(id: ISubscriber['_id']) {
-    return this._dbContext.subscriber.findById(id)
+    return this._dbContext.subscriber
+      .findById(id)
+      .then((entity) => entity)
+      .catch(() => {
+        return null
+      })
   }
 
   async create(entity: Partial<ISubscriber>) {

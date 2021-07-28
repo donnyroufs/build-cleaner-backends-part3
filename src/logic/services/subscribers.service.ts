@@ -6,6 +6,7 @@ import {
   SubscriberDto,
   UpdateSubscriberDto,
 } from '@logic/dtos'
+import { CouldNotFindSubscriberException } from '@logic/exceptions'
 
 @injectable()
 export class SubscribersService {
@@ -22,7 +23,7 @@ export class SubscribersService {
     )
 
     if (!foundSubscriber) {
-      throw new Error('No subscriber found with the given id')
+      throw new CouldNotFindSubscriberException()
     }
 
     return SubscriberDto.from(foundSubscriber)
