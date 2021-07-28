@@ -48,7 +48,8 @@ export class App extends Application {
     server.setErrorConfig((app) => {
       app.use((err, req, res, next) => {
         if (err instanceof ValidationException) {
-          const response = BaseHttpResponse.failed(err.message, 419)
+          // NOTE: Fixed this after the video, should 've been 422!
+          const response = BaseHttpResponse.failed(err.message, 422)
           return res.status(response.statusCode).json(response)
         }
 
